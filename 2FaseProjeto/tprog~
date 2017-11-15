@@ -1,0 +1,5 @@
+#Programa em código de maquina. O código abaixo é só um exemplo:
+
+PUSH 10
+PRN
+END

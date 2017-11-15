@@ -1,0 +1,87 @@
+#!/usr/bin/python3
+# -*- coding: utf-8 -*-
+"""
+Lê, na entrada padrão, um programa na linguagem de montagem da máquina
+virtual e retorna um programa em C que executa este programa.
+
+Uso:
+    montador < entrada > saida
+"""
+from sys import stdin
+
+l = stdin.readline()
+ip = 0
+tabsim = {}
+first = True
+print('#include <stdio.h>')
+print('#include "maq.h"')
+print("INSTR prog[] = {")
+# O seguinte loop é executado enquanto há conteúdo em l,
+# que é preenchido com stdin.readline()
+while l:
+    if l == "":
+        pass
+    # se não for a primeira linha, fecha a instrução anterior
+    #op armazena o opcode
+    label = op = tipo = arg = ""
+    try:
+        l = l[:l.index('#')]
+    except:
+        pass
+    # keys é uma lista contendo as palavras (palavras: opcodes e numeros)
+    # digitados pelo usuário
+    keys = list()
+    keys = l.split()
+    #print keys
+    # remover labels do código de máquina
+    # ex de label: LOOP:
+    if len(keys) > 0 and keys[0].endswith(":"):
+        label = keys[0][:-1]
+        tabsim[label]=ip
+        keys.pop(0)
+    # se houver código a ser convertido para a sintaxe de C:
+    if len(keys) > 0:
+        op = keys.pop(0)
+        # se a linha contiver argumentos
+        #if len(keys) != 0:
+        #ignorar eventuais Strings que sejam postas após o OpCode,
+        #exceto as que especificarem direções
+
+        # se o OpCode dado for o de uma função de ação
+        if op == 'ATK' or op == 'MOV' or op == 'CLT' or op == 'DEP':
+            # especifica o tipo da variável como ACAO
+            tipo = 'ACAO'
+        # se a instrução dada for PUSH (empilha), então o tipo dado
+        # é NUM, já que o jogador só pode empilhar números
+        elif op == 'PUSH' or op == 'ATR':
+            tipo = 'NUM'
+        else:
+            # se não for PUSH, então o tipo do Operando será NONE
+            tipo = 'NONE'
+        # introduzir os valores dos argumentos do Operando
+        if len(keys) > 0:
+            arg = ', '.join(keys)
+            if arg in tabsim:
+                arg = tabsim[arg]
+        else:
+            arg = 0
+        if op != "":
+            print ("{%s, %s, {%s}},"%(op, tipo, arg))
+        else:
+            print ''
+            ip -= 1
+    l = stdin.readline()
+    ip += 1 #avançar a instrução
+print '};'
+#Funcao Main
+print('');
+''' Implementa, mas nao para esta fase
+print('INSTR[] getProg() { return prog; }')
+'''
+print("int main(int ac, char **av) {");
+print("CriaArena(20, 2, 10, 5);");
+print("	Maquina *maq = cria_maquina(prog, 5, 5, 100, 0, 1);");
+print("	exec_maquina(maq, 1000);");
+print("	destroi_maquina(maq);");
+print("	return 0;");
+print("}");

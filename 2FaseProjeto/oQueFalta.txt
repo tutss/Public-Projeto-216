@@ -1,0 +1,17 @@
+O que falta fazer?
+	arena.c:
+		Atualiza() :
+			- Executa robo (218)
+
+		InsereExercito() :
+			- Criar a maquina (303)
+
+		RemoveExercito() :
+			- Destruir a maquina (348)
+
+	maq.c:
+		ExecutaAte()
+
+	DONE: MakeFile
+
+	Relatório

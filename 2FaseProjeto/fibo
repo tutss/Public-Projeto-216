@@ -1,0 +1,26 @@
+
+  fibo: PUSH  1
+  DUP   0
+  STO   0
+  STO   1
+
+  LOOP: PUSH 10
+  STO   2
+
+  RCL   0
+  RCL   1
+  DUP   0
+  STO   0
+  ADD   0
+  DUP   0
+  STO   1
+  PRN   0
+  RCL   2
+  PUSH  1
+  SUB   0
+  DUP   0
+  STO   2
+  PUSH  0
+  EQ    0
+  JIF   6
+  END   0
